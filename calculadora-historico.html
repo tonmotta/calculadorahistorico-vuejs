@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Calculadora</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+		html {
+			font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			-webkit-font-smoothing: antialiased;
+		}
+		body {
+			background-color: #0093E9;
+            background-image: linear-gradient(160deg, #0093E9 0%, #92e6dc 100%);
+			height: 100vh;
+			display: -webkit-box;
+			display: flex;
+			-webkit-box-align: center;
+			align-items: center;
+			-webkit-box-orient: vertical;
+			-webkit-box-direction: normal;
+			flex-direction: column;
+			-webkit-box-pack: center;
+			justify-content: center;
+			padding-top: 16px;
+			-webkit-transition: all 0.3s ease-in;
+			transition: all 0.3s ease-in;
+		}
+		@media (max-width: 1024px) {
+			body {
+			padding: 32px;
+			-webkit-transition: all 0.3s ease-in;
+			transition: all 0.3s ease-in;
+			}
+		}
+		@media (max-width: 1024px) {
+			body {
+			padding: 16px;
+			-webkit-transition: all 0.3s ease-in;
+			transition: all 0.3s ease-in;
+			}
+		}
+		h1 {
+			text-align: center;
+			color: #000;
+		}
+		h2 {
+			text-align: center;
+			color: #000;
+			font-size: 36px;
+		}
+		p {
+			text-align: center;
+			margin-top: 0;
+			margin-bottom: 24px;
+		}
+		.myButton {
+	    box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	    background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+	    background-color:#3d94f6;
+	    border-radius:6px;
+	    border:1px solid #337fed;
+	    display:inline-block;
+	    cursor:pointer;
+	    color:#ffffff;
+	    font-size:15px;
+	    font-weight:bold;
+	    padding:6px 24px;
+	    text-decoration:none;
+	    text-shadow:0px 1px 0px #1570cd;
+  		position:relative;
+  		top: 50%;
+  		left: 50%;
+  		-ms-transform: translate(-50%, -50%);
+  		transform: translate(-50%, -50%);
+		}
+        .myButton:hover {
+	    background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+	    background-color:#1e62d0;
+		}
+		.myButton:active {
+		position:relative;
+		top:1px;
+		}
+		.container {
+		max-width: 310px;
+		margin: 0 auto;
+		background-color: #fff;
+		padding: 32px;
+		box-shadow: 1px 1px 0px #111;
+		border-radius: 8px;
+		-webkit-transition: all 0.3s ease-in;
+		transition: all 0.3s ease-in;
+		}
+		@media (max-width: 512px) {
+			.container {
+				padding: 32px;
+				-webkit-transition: all 0.3s ease-in;
+				transition: all 0.3s ease-in;
+			}
+		}
+		@media (max-width: 360px) {
+			.container {
+				padding: 16px;
+				-webkit-transition: all 0.3s ease-in;
+				transition: all 0.3s ease-in;
+			}
+		}
+		label {
+			text-align: center;
+			display: inline-block;
+			margin-bottom: 8px;
+			font-weight: bold;
+		}
+		input,
+		select {
+			display: inline-block;
+			background-color: #fff;
+			color: #888;
+			border: 2px solid #888;
+			border-radius: 2px;
+			height: 56px;
+			width: 100%;
+			font-size: 24px;
+			padding: 0 16px;
+			margin-bottom: 24px;
+		}
+		input:focus,
+		select:focus {
+			background-color: #fff;
+			color: #00bb8c;
+			border-color: #002d3f;
+			outline: 0;
+		}
+		input[type=number]::-webkit-inner-spin-button,
+		input[type=number]::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+		@media (max-height: 750px) {
+			body {
+				height: 100%;
+			}
+		}
+	</style>
+
+	<div id="calculator">
+
+		<div class="container">
+			<form>
+
+				<h1>Calculadora</h1>
+
+                <label for = "numero1">Primeiro Número</label>
+				<input type="text" name="numero1" id="numero1" v-model.number="numero1" />
+
+				<label for = "operacao">Operação</label>			
+				<select v-model="operacao">
+					<option value="+">+</option>
+					<option value="-">-</option>
+					<option value="*">*</option>
+					<option value="/">/</option>
+				</select>
+
+                <label for = "numero2">Segundo Número</label>
+				<input type="text" name="numero2" id="numero2" v-model.number="numero2" />
+	
+			</form><br>
+
+			<button class="myButton" v-on:click.prevent="calcular" >Calcular</button><br>
+				<label for = "resultado">Resultado</label>
+				<input type="text" name="resultado" id="resultado" v-model.number="resultado" readonly/>
+
+				<ul>
+					<li v-for="registro in historico"> {{ registro }}</li>
+				</ul>
+
+			</div>
+			</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		var  app = new Vue({
+			el: "#calculator",
+			data: {
+				numero1: null,
+				numero2: null,
+				operacao: null,
+				resultado: null,
+				historico: []
+			},
+			methods: {
+				calcular: function(){
+					var registroHistorico = null;
+					switch (this.operacao) {
+						case "+":
+						this.resultado = this.numero1 + this.numero2;
+						break;	
+						case "-":
+						this.resultado = this.numero1 - this.numero2;
+						break;	
+						case "*":
+						this.resultado = this.numero1 * this.numero2;
+						break;
+						case "/":
+						this.resultado = this.numero1 / this.numero2;
+						break;	
+						default:	
+					}
+
+					var registroHistorico = 
+					this.numero1 + " " + this.operacao + " " + this.numero2 + " = " + this.resultado;
+					this.historico.push(registroHistorico);
+
+				},
+			}
+		});
+	</script>
+</body>
+</html>
